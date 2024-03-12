@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "725500555980",
+    "project_id": "onfly-f63de",
+    "storage_bucket": "onfly-f63de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725500555980:android:f52f85ac38c5afbdd10869",
+        "android_client_info": {
+          "package_name": "com.example.onfly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm-Yocqu-ArSaRVuo8bp6dTEYG3eT_D8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
