@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:onfly/src/constants/controllers.dart';
 import 'package:onfly/src/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -76,8 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           });
                     }
+
                     loginEmailPassword(_emailController.text,
-                        _passwordController.text, service, context);
+                        _passwordController.text, service);
                   },
                   child: const Text('Login')),
               TextButton(
@@ -87,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         email: _emailController.text,
                         password: _passwordController.text);
                   },
-                  child: Text('Sign In'))
+                  child: Text('Sign Up'))
             ],
           ),
         ),
@@ -96,29 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-Future<void> loginEmailPassword(String email, String password,
-    AuthService service, BuildContext context) async {
-  UserCredential? user = await service.login(email, password);
-
-  if (user != null) {
-    // ignore: use_build_context_synchronously
-    Navigator.pushReplacementNamed(context, '/');
-  } else {
-    // ignore: use_build_context_synchronously
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Erro ao fazer Login'),
-            content: const Text('Nao foi possível fazer login'),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Fechar'))
-            ],
-          );
-        });
-  }
+Future<void> loginEmailPassword(
+    String email, String password, AuthService service) async {
+  await service.login(email, password);
 }
