@@ -58,10 +58,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       login(_emailController.text, _passwordController.text);
                     },
                     child: const Text('Login')),
-                    TextButton(onPressed: () {
+                TextButton(
+                    onPressed: () {
                       final auth = FirebaseAuth.instance;
-                      auth.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-                    }, child: Text('Sign In'))
+                      auth.createUserWithEmailAndPassword(
+                          email: _emailController.text,
+                          password: _passwordController.text);
+                    },
+                    child: Text('Sign In'))
               ],
             ),
           ),
@@ -77,5 +81,5 @@ Future<void> login(String email, String password) async {
   UserCredential user =
       await auth.signInWithEmailAndPassword(email: email, password: password);
 
-print(user);
+  print(user);
 }
