@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onfly/src/models/trip.dart';
 import 'package:onfly/src/screens/CardInfo/card_info_screen.dart';
 import 'package:onfly/src/screens/Details/details_screen.dart';
 import 'package:onfly/src/screens/Home/home_screen.dart';
@@ -12,11 +13,10 @@ class Routes {
     '/login':(context) => const LoginScreen(),
     '/card': (context) => const CardInfoScreen(),
     '/details': (context) {
-      final Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-      final String city = args?['city'];
-      final DateTime date = args?['date'];
-      
-      return DetailsScreen(city: city, date: date);
+      final Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, TripDTO>?;
+      final TripDTO trip = args?['trip'];
+            
+      return DetailsScreen(trip: trip);
     },
 
   };

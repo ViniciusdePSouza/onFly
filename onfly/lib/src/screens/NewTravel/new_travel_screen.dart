@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onfly/src/constants/controllers.dart';
 import 'package:onfly/src/controllers/user_controller.dart';
-import 'package:onfly/src/screens/NewTravel/models/expenses.dart';
+import 'package:onfly/src/models/expenses.dart';
 
 class NewTravelScreen extends StatefulWidget {
   const NewTravelScreen({super.key});
@@ -20,7 +20,7 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
   final TextEditingController _tripDescription = TextEditingController();
   final TextEditingController _dateDeparture = TextEditingController();
   final TextEditingController _dateReturn = TextEditingController();
-  List<Expense> expenses = [];
+  List<ExpenseDTO> expenses = [];
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +129,7 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
             ElevatedButton(
               onPressed: () {
                 setState(() {
-                  expenses.add(Expense(description: '', expenseValue: ''));
+                  expenses.add(ExpenseDTO(description: '', expenseValue: ''));
                 });
               },
               child: const Text('Adicionar Despesa'),
@@ -143,7 +143,7 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
                   expense: expenses[index],
                   onChanged: (description, expense) {
                     setState(() {
-                      expenses[index] = Expense(
+                      expenses[index] = ExpenseDTO(
                         description: description,
                         expenseValue: expense,
                       );
@@ -211,7 +211,7 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
 }
 
 class ExpenseInput extends StatefulWidget {
-  final Expense expense;
+  final ExpenseDTO expense;
   final void Function(dynamic, dynamic) onChanged;
 
   const ExpenseInput({

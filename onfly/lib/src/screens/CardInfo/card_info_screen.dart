@@ -30,21 +30,21 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
             ListTile(
               title: const Text('Home'),
               onTap: () {
-               Get.offNamed('/');
+                Get.offNamed('/');
               },
             ),
             ListTile(
               title: const Text('New Travel'),
               onTap: () {
-                 Get.offNamed('/new_travel');
+                Get.offNamed('/new_travel');
               },
             ),
             ListTile(
               title: const Text('Log out'),
               onTap: () {
-                  FirebaseAuth.instance.signOut();
+                FirebaseAuth.instance.signOut();
 
-                  Get.offAllNamed('/login');
+                Get.offAllNamed('/login');
               },
             )
           ],

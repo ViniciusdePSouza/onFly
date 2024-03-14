@@ -2,14 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:onfly/src/models/trip.dart';
 
 class CustomCard extends StatelessWidget {
-  final String city;
-  final DateTime date;
+  final TripDTO trip;
+
   const CustomCard({
     Key? key,
-    required this.city,
-    required this.date,
+    required this.trip,
   }) : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class CustomCard extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ], borderRadius: BorderRadius.circular(8)),
         child: Row(
@@ -39,7 +39,7 @@ class CustomCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  city,
+                  trip.destinationCity,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -49,7 +49,7 @@ class CustomCard extends StatelessWidget {
                   height: 12,
                 ),
                 Text(
-                  '${date.day}/${date.month}/${date.year}',
+                  '${trip.departureDate.day}/${trip.departureDate.month}/${trip.departureDate.year}',
                   style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 12,
@@ -67,11 +67,11 @@ class CustomCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8)))),
                   onPressed: () {
                     Get.toNamed('/details',
-                        arguments: {'city': city, 'date': date});
+                        arguments: {'trip': trip});
                   },
                   child: Row(
                     children: [
-                      Icon(Icons.arrow_right),
+                      const Icon(Icons.arrow_right),
                       Text(
                         'Details',
                         style: TextStyle(
