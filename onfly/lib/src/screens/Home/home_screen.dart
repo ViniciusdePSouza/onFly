@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:onfly/src/components/custom_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,14 +19,18 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Home Screen weorks'),
-            ElevatedButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-
-                  Navigator.pushReplacementNamed(context, '/login');
-                },
-                child: const Text('Log out')),
+            CustomCard(
+              city: 'London',
+              date: DateTime.now(),
+            ),
+            CustomCard(
+              city: 'Tokyo',
+              date: DateTime.now(),
+            ),
+            CustomCard(
+              city: 'Paris',
+              date: DateTime.now(),
+            ),
           ],
         ),
       ),
@@ -38,13 +44,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               title: const Text('Credit Card Info'),
               onTap: () {
-                 Navigator.pushReplacementNamed(context, '/card');
+                Get.offNamed('/card');
               },
             ),
             ListTile(
               title: const Text('New Travel'),
               onTap: () {
-                Navigator.pushReplacementNamed(context, '/new_travel');
+                Get.offNamed('/new_travel');
+              },
+            ),
+            ListTile(
+              title: const Text('Log out'),
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+
+                Get.offAllNamed('/login');
               },
             )
           ],

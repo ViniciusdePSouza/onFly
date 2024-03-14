@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:onfly/src/constants/controllers.dart';
 
 class CardInfoScreen extends StatefulWidget {
   const CardInfoScreen({super.key});
@@ -27,13 +30,21 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
             ListTile(
               title: const Text('Home'),
               onTap: () {
-               Navigator.pushReplacementNamed(context, '/');
+               Get.offNamed('/');
               },
             ),
             ListTile(
               title: const Text('New Travel'),
               onTap: () {
-                 Navigator.pushReplacementNamed(context, '/new_travel');
+                 Get.offNamed('/new_travel');
+              },
+            ),
+            ListTile(
+              title: const Text('Log out'),
+              onTap: () {
+                  FirebaseAuth.instance.signOut();
+
+                  Get.offAllNamed('/login');
               },
             )
           ],
