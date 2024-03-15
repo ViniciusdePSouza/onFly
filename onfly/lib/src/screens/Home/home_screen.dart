@@ -24,6 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               CustomCard(
                 trip: TripDTO(
+                    airCompany: 'LATAM',
+                    boardingHours: DateTime.now(),
+                    boardingPass: 'B-45',
                     destinationCity: 'Panamá',
                     ticketPrice: 2500.00,
                     checkedBags: 2,
@@ -43,13 +46,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     departureDate: DateTime.now(),
                     returnDate: DateTime.now(),
                     otherExpenses: [
-                      ExpenseDTO(description: 'Medicine', expenseValue: '678987'),
+                      ExpenseDTO(
+                          description: 'Medicine', expenseValue: '678987'),
                       ExpenseDTO(description: 'Cloth', expenseValue: '600'),
                     ],
-                    userEmail: 'userEmail@email.com'),
+                    userEmail: 'userEmail@email.com',
+                    airCompany: 'LATAM',
+                    boardingHours: DateTime.now(),
+                    boardingPass: 'B-45'),
               ),
               CustomCard(
                 trip: TripDTO(
+                    airCompany: 'LATAM',
+                    boardingHours: DateTime.now(),
+                    boardingPass: 'B-45',
                     destinationCity: 'London',
                     ticketPrice: 2500.00,
                     checkedBags: 2,
@@ -61,6 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               CustomCard(
                 trip: TripDTO(
+                    airCompany: 'LATAM',
+                    boardingHours: DateTime.now(),
+                    boardingPass: 'B-45',
                     destinationCity: 'Tokyo',
                     ticketPrice: 2500.00,
                     checkedBags: 2,
