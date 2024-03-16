@@ -2,8 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onfly/src/components/custom_card.dart';
+import 'package:onfly/src/constants/controllers.dart';
+import 'package:onfly/src/controllers/user_controller.dart';
 import 'package:onfly/src/models/expenses.dart';
 import 'package:onfly/src/models/trip.dart';
+
+import '../../controllers/trip_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,78 +17,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  TripController tripController = TripController.instance;
+  @override
+  void initState() {
+    tripController.listTrips(userController.user.user?.email!);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(tripController.trips);
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomCard(
-                trip: TripDTO(
-                    airCompany: 'LATAM',
-                    boardingHours: DateTime.now(),
-                    boardingPass: 'B-45',
-                    destinationCity: 'Panamá',
-                    ticketPrice: 2500.00,
-                    checkedBags: 2,
-                    passengers: 2,
-                    tripDescription: 'Business Trip ',
-                    departureDate: DateTime.now(),
-                    returnDate: DateTime.now(),
-                    userEmail: 'userEmail@email.com'),
-              ),
-              CustomCard(
-                trip: TripDTO(
-                    destinationCity: 'Bogotá',
-                    ticketPrice: 2500.00,
-                    checkedBags: 2,
-                    passengers: 2,
-                    tripDescription: 'Business Trip ',
-                    departureDate: DateTime.now(),
-                    returnDate: DateTime.now(),
-                    otherExpenses: [
-                      ExpenseDTO(
-                          description: 'Medicine', expenseValue: '678987'),
-                      ExpenseDTO(description: 'Cloth', expenseValue: '600'),
-                    ],
-                    userEmail: 'userEmail@email.com',
-                    airCompany: 'LATAM',
-                    boardingHours: DateTime.now(),
-                    boardingPass: 'B-45'),
-              ),
-              CustomCard(
-                trip: TripDTO(
-                    airCompany: 'LATAM',
-                    boardingHours: DateTime.now(),
-                    boardingPass: 'B-45',
-                    destinationCity: 'London',
-                    ticketPrice: 2500.00,
-                    checkedBags: 2,
-                    passengers: 2,
-                    tripDescription: 'Business Trip ',
-                    departureDate: DateTime.now(),
-                    returnDate: DateTime.now(),
-                    userEmail: 'userEmail@email.com'),
-              ),
-              CustomCard(
-                trip: TripDTO(
-                    airCompany: 'LATAM',
-                    boardingHours: DateTime.now(),
-                    boardingPass: 'B-45',
-                    destinationCity: 'Tokyo',
-                    ticketPrice: 2500.00,
-                    checkedBags: 2,
-                    passengers: 2,
-                    tripDescription: 'Business Trip ',
-                    departureDate: DateTime.now(),
-                    returnDate: DateTime.now(),
-                    userEmail: 'userEmail@email.com'),
-              ),
-            ],
-          ),
+      body: Obx(
+        () => ListView.builder(
+          itemCount: tripController.trips.length,
+          itemBuilder: (context, index) {
+            TripDTO trip = tripController.trips[index];
+            return CustomCard(trip: trip);
+          },
         ),
       ),
       drawer: Drawer(

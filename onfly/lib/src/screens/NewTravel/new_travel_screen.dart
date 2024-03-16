@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onfly/src/components/expense_input.dart';
 import 'package:onfly/src/constants/controllers.dart';
+import 'package:onfly/src/controllers/trip_controller.dart';
 import 'package:onfly/src/controllers/user_controller.dart';
 import 'package:onfly/src/models/expenses.dart';
+import 'package:onfly/src/models/trip.dart';
 
 class NewTravelScreen extends StatefulWidget {
   const NewTravelScreen({super.key});
@@ -23,6 +25,8 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
   final TextEditingController _dateReturn = TextEditingController();
   final TextEditingController _airCompany = TextEditingController();
   final TextEditingController _boardingPass = TextEditingController();
+
+  TripController tripController = TripController.instance;
 
   List<ExpenseDTO> expenses = [];
 
@@ -98,14 +102,14 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
         TextFormField(
           controller: _airCompany,
           decoration: const InputDecoration(
-            labelText: 'Air Company',	
+            labelText: 'Air Company',
           ),
         ),
         const SizedBox(height: 16.0),
         TextFormField(
           controller: _boardingPass,
           decoration: const InputDecoration(
-            labelText: 'Boarding Pass',	
+            labelText: 'Boarding Pass',
           ),
         ),
         const SizedBox(height: 16.0),
@@ -208,21 +212,22 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
             List<String> expenseStrings = expenses.map((expense) {
               return 'Description: ${expense.description}, Expense: ${expense.expenseValue}';
             }).toList();
-            Map<String, dynamic> newTrip = {
-              'destinationCity': _destinationCity.text,
-              'arCompany': _airCompany.text,
-              'boardingPass': _boardingPass.text,
-              'ticketPrice': _ticketPrice.text,
-              'checkedBags': _checkedBags.text,
-              'passengers': _passengersNumber.text,
-              'tripDescription': _tripDescription.text,
-              'otherExpenses': expenseStrings,
-              'departureDate': _dateDeparture.text,
-              'returnDate': _dateReturn.text,
-              'boardingHour': '${DateTime.now().hour}:${DateTime.now().minute}',
-              'userEmail': userController.user.user!.email
-            };
-            print(newTrip);
+            TripDTO newTrip = TripDTO(
+              destinationCity: _destinationCity.text,
+              airCompany: _airCompany.text,
+              boardingPass: _boardingPass.text,
+              ticketPrice: double.parse(_ticketPrice.text),
+              checkedBags: int.parse(_checkedBags.text),
+              passengers: int.parse(_passengersNumber.text),
+              tripDescription: _tripDescription.text,
+              departureDate: DateTime.parse(_dateDeparture.text),
+              returnDate: DateTime.parse(_dateReturn.text),
+              otherExpenses: expenses,
+              userEmail: userController.user.user!.email!,
+              boardingHour: DateTime.now(),
+            );
+            
+            tripController.addTrip(newTrip);
           },
           child: const Text('Enviar'),
         ),
@@ -230,4 +235,3 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
     );
   }
 }
-
