@@ -22,7 +22,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextFormField(
-          initialValue: widget.expense.expenseValue,
+          initialValue: widget.expense.description,
           onChanged: (value) {
             setState(() {
               widget.expense.description = value;

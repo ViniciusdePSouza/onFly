@@ -32,11 +32,12 @@ class _UpdateTripScreenStateState extends State<UpdateTripScreenState> {
 
   TripController tripController = TripController.instance;
 
-  List<ExpenseDTO> expenses = [];
+  late List<ExpenseDTO> expenses;
 
   @override
   void initState() {
     super.initState();
+    expenses = widget.trip.otherExpenses ?? [];
     _destinationCity = TextEditingController(text: widget.trip.destinationCity);
     _ticketPrice =
         TextEditingController(text: widget.trip.ticketPrice.toString());
@@ -259,7 +260,7 @@ class _UpdateTripScreenStateState extends State<UpdateTripScreenState> {
             );
 
             tripController.updateTrip(newTrip).then((_) {
-              Get.toNamed('/details', arguments: {'trip': newTrip});
+              Get.offAllNamed('/');
             });
           },
           child: const Text('Update'),

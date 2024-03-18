@@ -227,7 +227,7 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
               boardingHour: DateTime.now(),
             );
             
-            tripController.addTrip(newTrip);
+            tripController.addTrip(newTrip).then((_) => Get.offAllNamed('/'));
           },
           child: const Text('Enviar'),
         ),
