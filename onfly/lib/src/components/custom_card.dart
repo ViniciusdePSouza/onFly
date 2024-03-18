@@ -18,14 +18,17 @@ class CustomCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Container(
         padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(color: Colors.grey[100], boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ], borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+            color: Colors.grey[100],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+            borderRadius: BorderRadius.circular(8)),
         child: Row(
           children: [
             Image.network(
@@ -39,7 +42,9 @@ class CustomCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  trip.destinationCity,
+                  trip.destinationCity.length > 7
+                      ? '${trip.destinationCity.substring(0, 7)}...'
+                      : trip.destinationCity,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
@@ -66,8 +71,7 @@ class CustomCard extends StatelessWidget {
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                   onPressed: () {
-                    Get.toNamed('/details',
-                        arguments: {'trip': trip});
+                    Get.toNamed('/details', arguments: {'trip': trip});
                   },
                   child: Row(
                     children: [

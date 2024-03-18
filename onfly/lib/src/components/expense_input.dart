@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:onfly/src/models/expenses.dart';
 
@@ -22,7 +21,8 @@ class _ExpenseInputState extends State<ExpenseInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextField(
+        TextFormField(
+          initialValue: widget.expense.expenseValue,
           onChanged: (value) {
             setState(() {
               widget.expense.description = value;
@@ -31,7 +31,8 @@ class _ExpenseInputState extends State<ExpenseInput> {
           decoration: const InputDecoration(labelText: 'Description'),
         ),
         const SizedBox(height: 8.0),
-        TextField(
+        TextFormField(
+          initialValue: widget.expense.expenseValue,
           onChanged: (value) {
             setState(() {
               widget.expense.expenseValue = value;

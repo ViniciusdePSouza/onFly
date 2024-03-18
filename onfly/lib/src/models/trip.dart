@@ -10,7 +10,7 @@ class TripDTO {
   late int checkedBags;
   late int passengers;
   late String tripDescription;
-  late List<ExpenseDTO>? otherExpenses;
+  late List<ExpenseDTO>? otherExpenses = [];
   late DateTime departureDate;
   late DateTime returnDate;
   late DateTime boardingHour;

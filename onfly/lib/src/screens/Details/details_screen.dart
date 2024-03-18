@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:onfly/src/components/expense_input.dart';
-import 'package:onfly/src/constants/controllers.dart';
+import 'package:get/get.dart';
 import 'package:onfly/src/models/expenses.dart';
+
 import 'package:onfly/src/models/trip.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -18,29 +18,17 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  final TextEditingController _destinationCity = TextEditingController();
-  final TextEditingController _ticketPrice = TextEditingController();
-  final TextEditingController _checkedBags = TextEditingController();
-  final TextEditingController _passengersNumber = TextEditingController();
-  final TextEditingController _tripDescription = TextEditingController();
-  final TextEditingController _dateDeparture = TextEditingController();
-  final TextEditingController _dateReturn = TextEditingController();
-  final TextEditingController _airCompany = TextEditingController();
-  final TextEditingController _boardingPass = TextEditingController();
-
-  bool _readOnly = true;
-
-  List<ExpenseDTO> expenses = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details'),
+        title: const Text('Details'),
       ),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: _readOnly ? buildDataText() : buildForm()),
+          child: SingleChildScrollView(
+            child: buildDataText(),
+          )),
     );
   }
 
@@ -72,191 +60,170 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   buildDataText() {
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Destination: ${widget.trip.destinationCity}}',
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-        ),
-        Text(
-            'Departure Date: ${widget.trip.departureDate.day}/${widget.trip.departureDate.month}/${widget.trip.departureDate.year}'),
-        Text(
-            'Return Date: ${widget.trip.departureDate.day}/${widget.trip.departureDate.month}/${widget.trip.departureDate.year}'),
-        Text('Description:'),
-        Text(widget.trip.tripDescription),
-        Text('Number of passengers: ${widget.trip.passengers}'),
-        Text('Numeber of bags checked: ${widget.trip.checkedBags}'),
-        Text('Numeber of bags checked: ${widget.trip.ticketPrice}'),
-        Text('Expenses:'),
-        Text(
-            'Expenses with tickets: ${widget.trip.ticketPrice} * ${widget.trip.passengers} = ${widget.trip.ticketPrice.toDouble() * widget.trip.passengers.toInt()}'),
-        Text(
-            'Expense with bags: 200 * ${widget.trip.checkedBags} = ${widget.trip.checkedBags.toInt() * 200}'),
-        if (widget.trip.otherExpenses != null &&
-            widget.trip.otherExpenses!.isNotEmpty)
-          buildOtherExpenses(),
-        Text('Total Expenses: ${calculateExpenses().toString()}')
-      ],
-    );
-  }
-
-  buildForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        TextFormField(
-          controller: _destinationCity,
-          decoration: const InputDecoration(
-            labelText: 'Destination City',
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Destination: ${widget.trip.destinationCity}}',
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
           ),
-        ),
-        const SizedBox(height: 16.0),
-        TextFormField(
-          controller: _airCompany,
-          decoration: const InputDecoration(
-            labelText: 'Air Company',
-          ),
-        ),
-        const SizedBox(height: 16.0),
-        TextFormField(
-          controller: _boardingPass,
-          decoration: const InputDecoration(
-            labelText: 'Boarding Pass',
-          ),
-        ),
-        const SizedBox(height: 16.0),
-        TextFormField(
-          controller: _ticketPrice,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            labelText: 'Ticket Price (two ways)',
-          ),
-        ),
-        const SizedBox(height: 16.0),
-        TextFormField(
-          controller: _checkedBags,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            labelText: 'Number of Checked Bags',
-          ),
-        ),
-        const SizedBox(height: 16.0),
-        TextFormField(
-          controller: _passengersNumber,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            labelText: 'Number of Passengers',
-          ),
-        ),
-        const SizedBox(height: 16.0),
-        TextFormField(
-          controller: _tripDescription,
-          maxLines: 3,
-          decoration: const InputDecoration(
-            labelText: 'Trip Description',
-          ),
-        ),
-        const SizedBox(height: 16.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ElevatedButton(
+          Text(
+              'Departure Date: ${widget.trip.departureDate.day}/${widget.trip.departureDate.month}/${widget.trip.departureDate.year}'),
+          Text(
+              'Return Date: ${widget.trip.departureDate.day}/${widget.trip.departureDate.month}/${widget.trip.departureDate.year}'),
+          const Text('Description:'),
+          Text(widget.trip.tripDescription),
+          Text('Number of passengers: ${widget.trip.passengers}'),
+          Text('Number of bags checked: ${widget.trip.checkedBags}'),
+          Text('Ticket Price: ${widget.trip.ticketPrice}'),
+          const Text('Expenses:'),
+          Text(
+              'Expenses with tickets: ${widget.trip.ticketPrice} * ${widget.trip.passengers} = ${widget.trip.ticketPrice.toDouble() * widget.trip.passengers.toInt()}'),
+          Text(
+              'Expense with bags: 200 * ${widget.trip.checkedBags} = ${widget.trip.checkedBags.toInt() * 200}'),
+          if (widget.trip.otherExpenses != null &&
+              widget.trip.otherExpenses!.isNotEmpty)
+            buildOtherExpenses(),
+          Text('Total Expenses: ${calculateExpenses().toString()}'),
+          ElevatedButton(
               onPressed: () {
-                setState(() {
-                  expenses.add(ExpenseDTO(description: '', expenseValue: ''));
-                });
+                Get.toNamed('/update_trip', arguments: {'trip': widget.trip});
               },
-              child: const Text('Adicionar Despesa'),
-            ),
-            const SizedBox(height: 16.0),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: expenses.length,
-              itemBuilder: (context, index) {
-                return ExpenseInput(
-                  expense: expenses[index],
-                  onChanged: (description, expense) {
-                    setState(() {
-                      expenses[index] = ExpenseDTO(
-                        description: description,
-                        expenseValue: expense,
-                      );
-                    });
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-        TextField(
-          controller: _dateDeparture,
-          onTap: () {
-            selectDate(_dateDeparture);
-          },
-          readOnly: true,
-          decoration: const InputDecoration(
-              labelText: 'Depart Date',
-              filled: true,
-              prefixIcon: Icon(Icons.calendar_today),
-              enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue))),
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        TextField(
-          controller: _dateReturn,
-          onTap: () {
-            selectDate(_dateReturn);
-          },
-          readOnly: true,
-          decoration: const InputDecoration(
-              labelText: 'Return Date',
-              filled: true,
-              prefixIcon: Icon(Icons.calendar_today),
-              enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue))),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            List<String> expenseStrings = expenses.map((expense) {
-              return 'Description: ${expense.description}, Expense: ${expense.expenseValue}';
-            }).toList();
-            Map<String, dynamic> newTrip = {
-              'destinationCity': _destinationCity.text,
-              'arCompany': _airCompany.text,
-              'boardingPass': _boardingPass.text,
-              'ticketPrice': _ticketPrice.text,
-              'checkedBags': _checkedBags.text,
-              'passengers': _passengersNumber.text,
-              'tripDescription': _tripDescription.text,
-              'otherExpenses': expenseStrings,
-              'departureDate': _dateDeparture.text,
-              'returnDate': _dateReturn.text,
-              'boardingHour': '${DateTime.now().hour}:${DateTime.now().minute}',
-              'userEmail': userController.user.user!.email
-            };
-            print('PUT ON DATA BASE');
-            print(newTrip);
-          },
-          child: const Text('Enviar'),
-        ),
-      ],
+              child: const Text('Edit')),
+          Visibility(
+              visible: widget.trip.otherExpenses != null,
+              child: _buildPizzaChart(
+                  widget.trip.otherExpenses!,
+                  widget.trip.ticketPrice,
+                  widget.trip.passengers,
+                  widget.trip.checkedBags))
+        ],
+      ),
     );
   }
+}
 
-  Future<void> selectDate(TextEditingController controller) async {
-    DateTime? _picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100));
+_buildPizzaChart(List<ExpenseDTO> expensesList, double ticketPrice,
+    int passengers, int checkedBags) {
+  late List<Sectors> sectors;
+  late double totalExpense;
+  sectors = expensesList.map((expense) {
+    final random = Random();
+    final color = Color.fromRGBO(
+      random.nextInt(256),
+      random.nextInt(256),
+      random.nextInt(256),
+      1.0,
+    );
 
-    if (_picked != null) {
-      controller.text = _picked.toString().split(' ')[0];
+    final value = double.parse(expense.expenseValue);
+
+    return Sectors(
+        color: color, value: value, description: expense.description);
+  }).toList();
+
+  sectors.add(Sectors(
+      description: 'Tickets',
+      color: const Color(0xFF0000FF),
+      value: ticketPrice * passengers));
+  sectors.add(Sectors(
+      color: const Color(0xFFFF0000),
+      value: checkedBags * 200,
+      description: 'Bags'));
+
+  totalExpense = sectors.fold(
+      0.0, (previousValue, element) => previousValue + element.value);
+
+  return Column(
+    children: [
+      PizzaChart(sectors: sectors),
+      SizedBox(
+        height: 50,
+      ),
+      Text('Legenda'),
+      for (var sector in sectors)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Row(
+            children: [
+              Container(
+                height: 20,
+                width: 20,
+                color: sector.color,
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Text(
+                  '${sector.description}: ${((sector.value / totalExpense) * 100).toStringAsFixed(2)}%')
+            ],
+          ),
+        ),
+    ],
+  );
+}
+
+class PizzaChart extends StatelessWidget {
+  late List<Sectors> sectors;
+
+  PizzaChart({super.key, required this.sectors});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: const Size(200, 200),
+      painter: PizzaChartPainter(sectorsList: sectors),
+    );
+  }
+}
+
+class PizzaChartPainter extends CustomPainter {
+  final List<Sectors> sectorsList;
+
+  PizzaChartPainter({required this.sectorsList});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double startAngle = -pi / 2;
+    for (final sector in sectorsList) {
+      final totalSectorSummed = sectorsList.fold(
+          0.0, (previousValue, element) => previousValue + element.value);
+      const fullCycleInRadius = 2 * pi;
+      final sectorPercent = sector.value / totalSectorSummed;
+      final sweepAngle = sectorPercent * fullCycleInRadius;
+
+      final paintPrimitive = Paint()
+        ..color = sector.color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 30;
+
+      canvas.drawArc(
+          Rect.fromCenter(
+              center: Offset(size.width / 2, size.height / 2),
+              width: size.width,
+              height: size.height),
+          startAngle,
+          sweepAngle,
+          false,
+          paintPrimitive);
+
+      startAngle += sweepAngle;
     }
   }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
+class Sectors {
+  final String description;
+  final Color color;
+  final double value;
+
+  Sectors(
+      {required this.description, required this.color, required this.value});
 }
