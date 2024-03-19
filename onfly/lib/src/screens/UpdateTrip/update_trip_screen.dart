@@ -260,6 +260,7 @@ class _UpdateTripScreenStateState extends State<UpdateTripScreenState> {
             tripController.updateTrip(newTrip).then((_) {
               Get.offAllNamed('/');
             });
+            Get.offAllNamed('/');
           },
           child: const Text('Update'),
         ),

@@ -42,8 +42,8 @@ class CustomCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  trip.destinationCity.length > 7
-                      ? '${trip.destinationCity.substring(0, 7)}...'
+                  trip.destinationCity.length > 10
+                      ? '${trip.destinationCity.substring(0, 10)}...'
                       : trip.destinationCity,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
