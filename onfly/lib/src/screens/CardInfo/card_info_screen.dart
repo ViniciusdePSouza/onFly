@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onfly/src/components/credit_cart_component.dart';
 import 'package:onfly/src/constants/controllers.dart';
-import 'package:onfly/src/constants/firebase.dart';
 import 'package:onfly/src/controllers/credit_card_controller.dart';
 import 'package:onfly/src/models/transactions_model.dart';
 

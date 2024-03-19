@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,8 +7,6 @@ import 'package:onfly/src/controllers/credit_card_controller.dart';
 import 'package:onfly/src/controllers/trip_controller.dart';
 import 'package:onfly/src/controllers/user_controller.dart';
 import 'package:onfly/src/routes/routes.dart';
-import 'package:onfly/src/screens/Home/home_screen.dart';
-import 'package:onfly/src/screens/login/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

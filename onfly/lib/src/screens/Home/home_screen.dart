@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:onfly/src/components/custom_card.dart';
 import 'package:onfly/src/constants/controllers.dart';
 import 'package:onfly/src/controllers/credit_card_controller.dart';
-import 'package:onfly/src/controllers/user_controller.dart';
-import 'package:onfly/src/models/expenses.dart';
 import 'package:onfly/src/models/trip.dart';
 
 import '../../controllers/trip_controller.dart';

@@ -69,14 +69,14 @@ class _UpdateTripScreenStateState extends State<UpdateTripScreenState> {
   }
 
   Future<void> selectDate(TextEditingController controller) async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
         lastDate: DateTime(2100));
 
-    if (_picked != null) {
-      controller.text = _picked.toString().split(' ')[0];
+    if (picked != null) {
+      controller.text = picked.toString().split(' ')[0];
     }
   }
 
@@ -241,9 +241,6 @@ class _UpdateTripScreenStateState extends State<UpdateTripScreenState> {
         ),
         ElevatedButton(
           onPressed: () {
-            List<String> expenseStrings = expenses.map((expense) {
-              return 'Description: ${expense.description}, Expense: ${expense.expenseValue}';
-            }).toList();
             TripDTO newTrip = TripDTO(
               id: widget.trip.id,
               destinationCity: _destinationCity.text,

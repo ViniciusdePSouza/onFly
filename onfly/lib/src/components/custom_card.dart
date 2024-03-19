@@ -19,7 +19,7 @@ class CustomCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: Colors.blue[50],
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -66,22 +66,20 @@ class CustomCard extends StatelessWidget {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.grey[300]!),
+                          MaterialStateProperty.all<Color>(Colors.blue[600]!),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                   onPressed: () {
                     Get.toNamed('/details', arguments: {'trip': trip});
                   },
-                  child: Row(
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.arrow_right),
+                      Icon(Icons.arrow_right, color: Colors.white,),
                       Text(
                         'Details',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.grey[600]),
-                      )
+                        style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white))
                     ],
                   ),
                 )

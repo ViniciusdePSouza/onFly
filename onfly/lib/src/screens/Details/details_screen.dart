@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onfly/src/components/chart_caption.dart';
+import 'package:onfly/src/components/details_row.dart';
 import 'package:onfly/src/components/pizza_chart.dart';
 import 'package:onfly/src/models/expenses.dart';
 import 'package:onfly/src/models/sectors.dart';
@@ -36,9 +37,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   double calculateExpenses() {
-    double defaultExpenses = widget.trip.ticketPrice.toDouble() +
+    double defaultExpenses =
         (widget.trip.passengers.toDouble() * widget.trip.ticketPrice) +
-        (widget.trip.checkedBags.toDouble() * 200);
+            (widget.trip.checkedBags.toDouble() * 200);
     double otherExpensesCalculated = 0;
     if (widget.trip.otherExpenses != null &&
         widget.trip.otherExpenses!.isNotEmpty) {
@@ -57,7 +58,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: widget.trip.otherExpenses!
-          .map((item) => Text('${item.description}: ${item.expenseValue}'))
+          .map((item) => DetailsRow(
+              field: '${item.description}:', content: item.expenseValue))
           .toList(),
     );
   }
@@ -68,33 +70,73 @@ class _DetailsScreenState extends State<DetailsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Destination: ${widget.trip.destinationCity}}',
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+          DetailsRow(
+            field: 'Destination City',
+            content: widget.trip.destinationCity,
           ),
-          Text(
-              'Departure Date: ${widget.trip.departureDate.day}/${widget.trip.departureDate.month}/${widget.trip.departureDate.year}'),
-          Text(
-              'Return Date: ${widget.trip.departureDate.day}/${widget.trip.departureDate.month}/${widget.trip.departureDate.year}'),
-          const Text('Description:'),
-          Text(widget.trip.tripDescription),
-          Text('Number of passengers: ${widget.trip.passengers}'),
-          Text('Number of bags checked: ${widget.trip.checkedBags}'),
-          Text('Ticket Price: ${widget.trip.ticketPrice}'),
-          const Text('Expenses:'),
-          Text(
-              'Expenses with tickets: ${widget.trip.ticketPrice} * ${widget.trip.passengers} = ${widget.trip.ticketPrice.toDouble() * widget.trip.passengers.toInt()}'),
-          Text(
-              'Expense with bags: 200 * ${widget.trip.checkedBags} = ${widget.trip.checkedBags.toInt() * 200}'),
-          if (widget.trip.otherExpenses != null &&
-              widget.trip.otherExpenses!.isNotEmpty)
-            buildOtherExpenses(),
-          Text('Total Expenses: ${calculateExpenses().toString()}'),
+          DetailsRow(
+            field: 'Boarding Pass',
+            content: widget.trip.boardingPass,
+          ),
+          DetailsRow(
+            field: 'Departure Date',
+            content:
+                '${widget.trip.departureDate.day}/${widget.trip.departureDate.month}/${widget.trip.departureDate.year}',
+          ),
+          DetailsRow(
+            field: 'Return Date',
+            content:
+                '${widget.trip.returnDate.day}/${widget.trip.returnDate.month}/${widget.trip.returnDate.year}',
+          ),
+          DetailsRow(
+              field: 'Description', content: widget.trip.tripDescription),
+          DetailsRow(
+              field: 'Number of passengers',
+              content: widget.trip.passengers.toString()),
+          DetailsRow(
+              field: 'Number of bags checked',
+              content: widget.trip.checkedBags.toString()),
+          DetailsRow(
+              field: 'Ticket Price',
+              content: widget.trip.ticketPrice.toString()),
+          const Text(
+            'Expenses:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
+          DetailsRow(
+              field: 'Expenses with tickets',
+              content:
+                  '${widget.trip.ticketPrice} * ${widget.trip.passengers} = ${widget.trip.ticketPrice.toDouble() * widget.trip.passengers.toInt()}'),
+          DetailsRow(
+              field: 'Expense with bags',
+              content:
+                  '${widget.trip.checkedBags} * 200 = ${widget.trip.checkedBags.toInt() * 200}'),
+          Visibility(
+            visible: widget.trip.otherExpenses != null &&
+                widget.trip.otherExpenses!.isNotEmpty,
+            child: buildOtherExpenses(),
+          ),
+          DetailsRow(
+              field: 'Total Expenses:',
+              content: calculateExpenses().toString()),
           ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue[600]!),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)))),
               onPressed: () {
                 Get.toNamed('/update_trip', arguments: {'trip': widget.trip});
               },
-              child: const Text('Edit')),
+              child: const Text(
+                'Edit',
+                style:
+                    TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+              )),
+          const SizedBox(
+            height: 12,
+          ),
           Visibility(
               visible: widget.trip.otherExpenses != null,
               child: _buildPizzaChart(
@@ -153,7 +195,10 @@ _buildPizzaChart(List<ExpenseDTO> expensesList, double ticketPrice,
         height: 30,
       ),
       for (var sector in sectors)
-        ChartCaptionComponent(sector: sector, totalExpense: totalExpense,)
+        ChartCaptionComponent(
+          sector: sector,
+          totalExpense: totalExpense,
+        )
     ],
   );
 }

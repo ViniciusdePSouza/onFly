@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:onfly/src/components/expense_input.dart';
 import 'package:onfly/src/constants/controllers.dart';
 import 'package:onfly/src/controllers/trip_controller.dart';
-import 'package:onfly/src/controllers/user_controller.dart';
 import 'package:onfly/src/models/expenses.dart';
 import 'package:onfly/src/models/trip.dart';
 
@@ -210,9 +209,6 @@ class _NewTravelScreenState extends State<NewTravelScreen> {
         ),
         ElevatedButton(
           onPressed: () {
-            List<String> expenseStrings = expenses.map((expense) {
-              return 'Description: ${expense.description}, Expense: ${expense.expenseValue}';
-            }).toList();
             TripDTO newTrip = TripDTO(
               destinationCity: _destinationCity.text,
               airCompany: _airCompany.text,
