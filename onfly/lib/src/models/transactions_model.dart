@@ -6,10 +6,11 @@ class TransactionsDTO {
 
   Map<String, dynamic> toJson() => {'description': description, 'value': value};
 
-TransactionsDTO.fromJson(Map<String, dynamic> json) {
-  description = json['description'];
-  value = json['value'] is String ? json['value'] : json['value'].toString(); // Verificar e converter para String, se necessário
-}
-
-
+  TransactionsDTO.fromJson(Map<String, dynamic> json) {
+    description = json['description'];
+    value = json['value'] is String
+        ? json['value']
+        : json['value']
+            .toString(); 
+  }
 }

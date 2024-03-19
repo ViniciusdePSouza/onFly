@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:onfly/src/components/card_info_row.dart';
 import 'package:onfly/src/components/credit_cart_component.dart';
 import 'package:onfly/src/constants/controllers.dart';
 import 'package:onfly/src/controllers/credit_card_controller.dart';
@@ -73,12 +74,42 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
           child: Column(
             children: [
               CreditCardComponent(model: creditCardController.creditCard[0]),
-              Text(
-                  'Balance: ${calculateBalance(creditCardController.creditCard[0].transactions)}'),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 48, vertical: 12),
+                decoration: BoxDecoration(
+                    color: Colors.grey[800],
+                    borderRadius: BorderRadius.circular(8)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                child: Row(
+                  children: [
+                    Text(
+                      'Balance:',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                          color: Colors.amber[500]),
+                    ),
+                    const SizedBox(width: 12,),
+                    Text(
+                      '${calculateBalance(creditCardController.creditCard[0].transactions)}',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: calculateBalance(creditCardController
+                                      .creditCard[0].transactions) >
+                                  0
+                              ? Colors.green
+                              : Colors.red),
+                    )
+                  ],
+                ),
+              ),
               Expanded(
                 child: buildBankStatement(
                     creditCardController.creditCard[0].transactions),
               ),
+
               // ElevatedButton(
               //     onPressed: () {
               //       firebaseFirestore
@@ -98,17 +129,15 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
       itemCount: transactions.length,
       itemBuilder: (context, index) {
         TransactionsDTO transaction = transactions[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-          child: Text(
-              '${transaction.description.toString()}: ${transaction.value.toString()}'),
+        return CardInfoRow(
+          transaction: transaction,
         );
       },
     );
   }
 
   double calculateBalance(List<TransactionsDTO> transactions) {
-    var moneyArray = transactions
+    final List<double> moneyArray = transactions
         .map((transaction) => double.parse(transaction.value))
         .toList();
 
