@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onfly/src/components/custom_card.dart';
 import 'package:onfly/src/constants/controllers.dart';
+import 'package:onfly/src/controllers/credit_card_controller.dart';
 import 'package:onfly/src/controllers/user_controller.dart';
 import 'package:onfly/src/models/expenses.dart';
 import 'package:onfly/src/models/trip.dart';
@@ -18,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TripController tripController = TripController.instance;
+    CreditCardController creditCardController = CreditCardController.instance;
+
   @override
   void initState() {
     tripController.listTrips(userController.user.user?.email!);

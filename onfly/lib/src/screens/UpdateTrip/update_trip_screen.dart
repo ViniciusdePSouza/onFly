@@ -139,8 +139,9 @@ class _UpdateTripScreenStateState extends State<UpdateTripScreenState> {
         const SizedBox(height: 16.0),
         TextFormField(
           controller: _boardingPass,
+          maxLength: 4,
           decoration: const InputDecoration(
-            labelText: 'Boarding Pass',
+            labelText: 'Boarding Pass: X-54',
           ),
         ),
         const SizedBox(height: 16.0),

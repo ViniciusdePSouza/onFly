@@ -18,6 +18,7 @@ void main() async {
   Get.put(TripController());
   Get.put(CreditCardController());
   firebaseFirestore.settings = const Settings(persistenceEnabled: true);
+  // firebaseFirestore.disableNetwork().then((value) => print('disable network'));
   runApp(MyApp());
 }
 

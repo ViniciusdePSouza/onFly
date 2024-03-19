@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:onfly/src/components/credit_cart_component.dart';
 import 'package:onfly/src/constants/controllers.dart';
+import 'package:onfly/src/constants/firebase.dart';
 import 'package:onfly/src/controllers/credit_card_controller.dart';
 import 'package:onfly/src/models/transactions_model.dart';
 
@@ -16,15 +17,11 @@ class CardInfoScreen extends StatefulWidget {
 class _CardInfoScreenState extends State<CardInfoScreen> {
   CreditCardController creditCardController = CreditCardController.instance;
 
-  List<TransactionsDTO> list = [
-    TransactionsDTO(description: 'dentist', value: '-2000'),
-    TransactionsDTO(description: 'Salary', value: '5000'),
-  ];
-
   @override
   void initState() {
-    creditCardController.getCards(userController.user.user?.email!);
     super.initState();
+
+    creditCardController.getCards(userController.user.user?.email!);
   }
 
   @override
@@ -82,7 +79,14 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
               Expanded(
                 child: buildBankStatement(
                     creditCardController.creditCard[0].transactions),
-              )
+              ),
+              // ElevatedButton(
+              //     onPressed: () {
+              //       firebaseFirestore
+              //           .enableNetwork()
+              //           .then((value) => print('network enabled'));
+              //     },
+              //     child: Text('voltar net'))
             ],
           ),
         );

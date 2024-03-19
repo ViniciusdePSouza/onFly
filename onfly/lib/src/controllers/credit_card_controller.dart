@@ -10,13 +10,14 @@ class CreditCardController extends GetxController {
   List<CreditCardDTO> get creditCard => _creditCard.value;
 
   Future<void> getCards(String? userEmail) async {
-    _creditCard.value  = await firebaseFirestore
+    _creditCard.value = await firebaseFirestore
         .collection("cards")
         .where('userEmail', isEqualTo: userEmail)
         .snapshots()
         .map((query) => query.docs
             .map((item) => CreditCardDTO.fromJson(item.data(), item.id))
-            .toList()).first ;
+            .toList())
+        .first;
   }
 
   Future<void> addTrip(CreditCardDTO trip) async {

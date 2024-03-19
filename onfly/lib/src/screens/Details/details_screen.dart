@@ -1,7 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:onfly/src/components/chart_caption.dart';
+import 'package:onfly/src/components/pizza_chart.dart';
 import 'package:onfly/src/models/expenses.dart';
+import 'package:onfly/src/models/sectors.dart';
 
 import 'package:onfly/src/models/trip.dart';
 
@@ -139,91 +142,18 @@ _buildPizzaChart(List<ExpenseDTO> expensesList, double ticketPrice,
   return Column(
     children: [
       PizzaChart(sectors: sectors),
-      SizedBox(
-        height: 50,
+      const SizedBox(
+        height: 30,
       ),
-      Text('Legenda'),
+      const Text(
+        'Legenda',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+      ),
+      const SizedBox(
+        height: 30,
+      ),
       for (var sector in sectors)
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Row(
-            children: [
-              Container(
-                height: 20,
-                width: 20,
-                color: sector.color,
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              Text(
-                  '${sector.description}: ${((sector.value / totalExpense) * 100).toStringAsFixed(2)}%')
-            ],
-          ),
-        ),
+        ChartCaptionComponent(sector: sector, totalExpense: totalExpense,)
     ],
   );
-}
-
-class PizzaChart extends StatelessWidget {
-  late List<Sectors> sectors;
-
-  PizzaChart({super.key, required this.sectors});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: const Size(200, 200),
-      painter: PizzaChartPainter(sectorsList: sectors),
-    );
-  }
-}
-
-class PizzaChartPainter extends CustomPainter {
-  final List<Sectors> sectorsList;
-
-  PizzaChartPainter({required this.sectorsList});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    double startAngle = -pi / 2;
-    for (final sector in sectorsList) {
-      final totalSectorSummed = sectorsList.fold(
-          0.0, (previousValue, element) => previousValue + element.value);
-      const fullCycleInRadius = 2 * pi;
-      final sectorPercent = sector.value / totalSectorSummed;
-      final sweepAngle = sectorPercent * fullCycleInRadius;
-
-      final paintPrimitive = Paint()
-        ..color = sector.color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 30;
-
-      canvas.drawArc(
-          Rect.fromCenter(
-              center: Offset(size.width / 2, size.height / 2),
-              width: size.width,
-              height: size.height),
-          startAngle,
-          sweepAngle,
-          false,
-          paintPrimitive);
-
-      startAngle += sweepAngle;
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
-
-class Sectors {
-  final String description;
-  final Color color;
-  final double value;
-
-  Sectors(
-      {required this.description, required this.color, required this.value});
 }
