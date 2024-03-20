@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TripController tripController = TripController.instance;
   CreditCardController creditCardController = CreditCardController.instance;
-TextEditingController _searchController = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
   @override
   void initState() {
     tripController.listTrips(userController.user.user?.email!);
@@ -71,15 +71,30 @@ TextEditingController _searchController = TextEditingController();
           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
           child: Row(
             children: [
-              Expanded(child: TextFormField(controller: _searchController,)),
+              Expanded(
+                  child: TextFormField(
+                controller: _searchController,
+                cursorColor: Colors.blue, 
+                decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors
+                            .blue), 
+                  ),
+                ),
+              )),
               IconButton(
-                onPressed: () {
-                _searchByCityName(_searchController.text);
-              }, icon: const Icon(Icons.search, color: Colors.blue,))
+                  onPressed: () {
+                    _searchByCityName(_searchController.text);
+                  },
+                  icon: const Icon(
+                    Icons.search,
+                    color: Colors.blue,
+                  ))
             ],
           ),
         ),
-        const SizedBox(height: 10), 
+        const SizedBox(height: 10),
         Expanded(
           child: Obx(
             () => ListView.builder(
@@ -94,12 +109,13 @@ TextEditingController _searchController = TextEditingController();
       ],
     );
   }
-_searchByCityName(String city){
-  if(city.isEmpty){
-    tripController.listTrips(userController.user.user?.email!);
-    return;
-  }
 
-  tripController.filterTripsByCity(city);
-}
+  _searchByCityName(String city) {
+    if (city.isEmpty) {
+      tripController.listTrips(userController.user.user?.email!);
+      return;
+    }
+
+    tripController.filterTripsByCity(city);
+  }
 }

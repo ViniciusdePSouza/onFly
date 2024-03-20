@@ -33,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 12),
                 TextField(
+                  cursorColor: Colors.blue,
                   controller: _emailController,
                   decoration: InputDecoration(
                       hintText: 'Digite seu email',
@@ -50,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 12,
                 ),
                 TextField(
+                  cursorColor: Colors.blue,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     controller: _passwordController,
@@ -60,8 +62,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         hintText: 'Digite sua senha',
+                        
                         border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1),
+                          borderSide: const BorderSide(width: 1),
                           borderRadius: BorderRadius.circular(8),
                         ))),
                 const SizedBox(
