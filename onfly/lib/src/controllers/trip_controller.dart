@@ -1,4 +1,3 @@
-
 import 'package:get/get.dart';
 
 import 'package:onfly/src/constants/firebase.dart';
@@ -10,14 +9,22 @@ class TripController extends GetxController {
   RxList<TripDTO> _trips = RxList<TripDTO>([]);
   List<TripDTO> get trips => _trips.value;
 
+  void filterTripsByCity(String city) {
+    List<TripDTO> filteredTrips = _trips
+        .where((trip) => trip.destinationCity.toLowerCase().contains(city.toLowerCase()))
+        .toList();
+    _trips.value = filteredTrips;
+  }
+
   Future<void> listTrips(String? userEmail) async {
-    _trips.value  = await firebaseFirestore
+    _trips.value = await firebaseFirestore
         .collection("trips")
         .where('userEmail', isEqualTo: userEmail)
         .snapshots()
         .map((query) => query.docs
             .map((item) => TripDTO.fromMap(item.data(), item.id))
-            .toList()).first;
+            .toList())
+        .first;
   }
 
   Future<void> addTrip(TripDTO trip) async {

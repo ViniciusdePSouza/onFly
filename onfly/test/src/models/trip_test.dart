@@ -21,17 +21,18 @@ void main() {
           boardingHour: boardingHourMOCK,
           userEmail: 'email@email.com');
 
-          expect(tripObj.destinationCity, 'BH');
-          expect(tripObj.airCompany, 'LATAM');
-          expect(tripObj.boardingPass, 'B-90');
-          expect(tripObj.ticketPrice, 1600);
-          expect(tripObj.checkedBags, 6);
-          expect(tripObj.passengers, 2);
-          expect(tripObj.tripDescription, 'Business trip');
-          expect(tripObj.departureDate, departureDateMOCK);
-          expect(tripObj.returnDate, returnDateMOCK);
-          expect(tripObj.boardingHour, boardingHourMOCK);
-          expect(tripObj.userEmail, 'email@email.com');
+      expect(tripObj.destinationCity, 'BH');
+      expect(tripObj.airCompany, 'LATAM');
+      expect(tripObj.boardingPass, 'B-90');
+      expect(tripObj.ticketPrice, 1600);
+      expect(tripObj.checkedBags, 6);
+      expect(tripObj.passengers, 2);
+      expect(tripObj.tripDescription, 'Business trip');
+      expect(tripObj.departureDate, departureDateMOCK);
+      expect(tripObj.returnDate, returnDateMOCK);
+      expect(tripObj.boardingHour, boardingHourMOCK);
+      expect(tripObj.userEmail, 'email@email.com');
     });
+
   });
 }

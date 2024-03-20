@@ -17,8 +17,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TripController tripController = TripController.instance;
-    CreditCardController creditCardController = CreditCardController.instance;
-
+  CreditCardController creditCardController = CreditCardController.instance;
+TextEditingController _searchController = TextEditingController();
   @override
   void initState() {
     tripController.listTrips(userController.user.user?.email!);
@@ -30,15 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print(tripController.trips);
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: Obx(
-        () => ListView.builder(
-          itemCount: tripController.trips.length,
-          itemBuilder: (context, index) {
-            TripDTO trip = tripController.trips[index];
-            return CustomCard(trip: trip);
-          },
-        ),
-      ),
+      body: _buildListHandler(),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -71,4 +63,43 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  _buildListHandler() {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
+          child: Row(
+            children: [
+              Expanded(child: TextFormField(controller: _searchController,)),
+              IconButton(
+                onPressed: () {
+                _searchByCityName(_searchController.text);
+              }, icon: const Icon(Icons.search, color: Colors.blue,))
+            ],
+          ),
+        ),
+        const SizedBox(height: 10), 
+        Expanded(
+          child: Obx(
+            () => ListView.builder(
+              itemCount: tripController.trips.length,
+              itemBuilder: (context, index) {
+                TripDTO trip = tripController.trips[index];
+                return CustomCard(trip: trip);
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+_searchByCityName(String city){
+  if(city.isEmpty){
+    tripController.listTrips(userController.user.user?.email!);
+    return;
+  }
+
+  tripController.filterTripsByCity(city);
+}
 }
